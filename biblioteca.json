@@ -1,0 +1,49 @@
+[
+  {
+    "nombre": "WordpressPractic.pdf",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 453246,
+    "fecha": 1765471358.25
+  },
+  {
+    "nombre": "RESUMEN DNS.pdf",
+    "tipo": "documento",
+    "extension": ".pdf",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 249970,
+    "fecha": 1765726664.75,
+    "mime_type": "application/pdf"
+  },
+  {
+    "nombre": "UD 02 Actividad 3.odt",
+    "tipo": "documento",
+    "extension": ".odt",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 621877,
+    "fecha": 1765726711.65,
+    "mime_type": "application/vnd.oasis.opendocument.text"
+  },
+  {
+    "nombre": "Captura de pantalla 2025-12-14 134601.png",
+    "tipo": "imagen",
+    "extension": ".png",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 17075,
+    "fecha": 1765726823.85,
+    "mime_type": "image/png"
+  },
+  {
+    "nombre": "Captura de pantalla 2025-12-13 220538.png",
+    "tipo": "imagen",
+    "extension": ".png",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 11349,
+    "fecha": 1765797598.74,
+    "mime_type": "image/png"
+  }
+]

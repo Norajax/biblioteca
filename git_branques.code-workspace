@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "C:/Users/usuario/Desktop/git_branques"
+		},
+		{
+			"path": "C:/Users/usuario/Desktop/exercicio"
+		},
+		{
+			"path": "C:/Users/usuario/Desktop/proyecto_videojuegos"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../FP Suñer/2 Microinformaticas y redes/INTRODUCCIÓ A LA PROGRAMACIÓ/act4"
+		},
+		{
+			"path": "../FP Suñer/2 Microinformaticas y redes/INTRODUCCIÓ A LA PROGRAMACIÓ/Activitat 1 UNIDAD 4 Ejercicios del 1 al 4"
+		},
+		{
+			"path": "../FP Suñer/2 Microinformaticas y redes/INTRODUCCIÓ A LA PROGRAMACIÓ/Activitat 1 UNIDAD 5 Ejercicios del 5 al 9"
+		},
+		{
+			"path": "../biblioteca"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "pruebalibro"
+	}
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de PDFs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Enlace al CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- MODAL DE AVISO - Aparece primero -->
+    <div class="modal-overlay" id="warningModal">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h1 class="modal-title">AVISO IMPORTANTE</h1>
+            
+            <div class="modal-warning">
+                <div class="warning-text">
+                    <p>¡ATENCIÓN CLASE!</p>
+                    
+                    <span class="warning-highlight">Advertencia</span>
+                    
+                    <p><strong>No me hago responsable del uso indebido de los archivos.</strong></p>
+                    
+                    <p><strong>Prohibido contenido ofensivo</strong> o uso para hacer trampa en cualquier contexto académico.</p>
+                    
+                    <p>Este gestor está diseñado únicamente para gestión legítima de documentos educativos.</p>
+                    <p>( -_•)▄︻テحكـ━一</p>
+                </div>
+            </div>
+            
+            <div class="modal-note">
+                Al hacer clic en "Acepto y Entiendo", confirmas que has leído y comprendido estos términos de uso.
+            </div>
+            
+            <button class="accept-button" id="acceptButton">
+               ૮ ˶´ ᵕˋ ˶ა ACEPTO Y ENTIENDO
+            </button>
+        </div>
+    </div>
+    
+    <!-- CONTENIDO PRINCIPAL - Bloqueado inicialmente -->
+    <div class="container" id="mainContainer">
+        <div class="panel izquierda">
+            <div class="panel-header">
+                <div class="theme-controls">
+                <h2>☁️Archcloud</h2>
+                <div class="theme-switch">
+                    <span class="switch-label">🌚Oscuroito</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="file-controls">
+            <!-- Subir PDF -->
+            <div class="file-upload">
+                <input type="file" id="fileInput" accept=".pdf">
+            </div>
+            
+            <!-- Descargar seleccionados -->
+            <button id="btnDescargar">
+                <span>📥</span>
+                <span>Descargar Seleccionados (ZIP)</span>
+            </button>
+        </div>
+        
+        <!-- Nube de PDFs -->
+        <div id="lista">
+            <div class="cloud-container">
+                <!-- Las categorías y PDFs se insertarán aquí dinámicamente -->
+                <div class="loading">Cargando... ૮ – ﻌ–ა</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel derecha">
+        <div class="visor-header">
+            <h2>📄 Vista del PDF ≽^•⩊•^≼</h2>
+        </div>
+        <div id="visor">
+            <!-- El PDF se mostrará aquí -->
+        </div>
+    </div>
+</div>
+
+<!-- Enlace al JavaScript principal -->
+<script src="script.js"></script>
+<!-- Enlace al JavaScript del gestor de PDFs -->
+<script src="pdf-manager.js"></script>
+<!-- En lugar de solo aceptar PDFs -->
+<input type="file" id="fileInput" accept=".pdf">
+
+<!-- Cambia a múltiples tipos -->
+<input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.jpg,.png,.zip" multiple>
+<input type="file" id="fileInput" 
+       accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.gif,.bmp,.svg,.webp,.zip,.rar,.7z,.tar,.gz,.json,.xml,.html,.htm,.js,.css,.py,.java,.c,.cpp" 
+       multiple>
+</body>
+</html>
