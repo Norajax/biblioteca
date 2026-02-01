@@ -151,6 +151,11 @@ function obtenerIconoArchivo(nombreArchivo) {
         'tar': '📦',
         'gz': '📦',
         
+        // Imágenes de disco y máquinas virtuales 
+        'iso': '💿',
+        'ova': '🖥️',
+        'ovf': '🖥️',
+        
         // Otros
         'json': '🔣',
         'xml': '📋',
@@ -176,6 +181,12 @@ function obtenerTipoArchivo(extension) {
         'ppt': 'presentacion', 'pptx': 'presentacion', 'odp': 'presentacion',
         'jpg': 'imagen', 'jpeg': 'imagen', 'png': 'imagen', 'gif': 'imagen', 'bmp': 'imagen', 'svg': 'imagen', 'webp': 'imagen',
         'zip': 'comprimido', 'rar': 'comprimido', '7z': 'comprimido', 'tar': 'comprimido', 'gz': 'comprimido',
+        
+        // AÑADIDO: Tipos especiales
+        'iso': 'imagen_disco',
+        'ova': 'maquina_virtual',
+        'ovf': 'maquina_virtual',
+        
         'json': 'documento', 'xml': 'documento', 'html': 'documento', 'htm': 'documento',
         'js': 'documento', 'css': 'documento', 'py': 'documento', 'java': 'documento', 'c': 'documento', 'cpp': 'documento'
     };
@@ -217,7 +228,7 @@ async function initializeExampleContent() {
 // Función para cargar archivos del servidor
 async function cargarArchivos() {
     try {
-        const response = await fetch('/files'); // Cambiado de '/pdfs' a '/files'
+        const response = await fetch('/files');
         const archivos = await response.json();
         mostrarArchivos(archivos);
         return archivos;
@@ -245,8 +256,24 @@ function mostrarArchivos(archivos) {
     
     let html = '';
     
-    Object.keys(agrupados).forEach(tipo => {
-        // Traducir tipo a nombre más amigable
+    // Mostrar primero los tipos especiales, luego los normales
+    const tiposEspeciales = ['imagen_disco', 'maquina_virtual'];
+    const otrosTipos = Object.keys(agrupados).filter(tipo => !tiposEspeciales.includes(tipo));
+    
+    // Mostrar tipos especiales primero
+    tiposEspeciales.forEach(tipo => {
+        if (agrupados[tipo] && agrupados[tipo].length > 0) {
+            const nombreCategoria = tipo === 'imagen_disco' ? '💿 Imágenes de Disco' : '🖥️ Máquinas Virtuales';
+            html += `<div class="categoria">${nombreCategoria}</div>`;
+            
+            agrupados[tipo].forEach(archivo => {
+                html += createCloudItem(archivo);
+            });
+        }
+    });
+    
+    // Mostrar otros tipos
+    otrosTipos.forEach(tipo => {
         const nombresTipo = {
             'documento': '📝 Documentos',
             'imagen': '🖼️ Imágenes',
@@ -288,26 +315,6 @@ function mostrarArchivos(archivos) {
     });
 }
 
-// Mostrar contenido de ejemplo si no hay servidor
-function mostrarContenidoEjemplo() {
-    const cloudContainer = document.querySelector('.cloud-container');
-    if (!cloudContainer) return;
-    
-    const archivosEjemplo = [
-        { nombre: 'Informe_Financiero.pdf', tipo: 'documento', tamaño: 1024 * 250 }, // 250 KB
-        { nombre: 'Contrato_Servicios.docx', tipo: 'documento', tamaño: 1024 * 180 },
-        { nombre: 'Manual_Usuario.txt', tipo: 'documento', tamaño: 1024 * 120 },
-        { nombre: 'Graficos_Proyecto.png', tipo: 'imagen', tamaño: 1024 * 800 },
-        { nombre: 'Datos_Ventas.xlsx', tipo: 'hoja_calculo', tamaño: 1024 * 350 },
-        { nombre: 'Presentacion_Clientes.pptx', tipo: 'presentacion', tamaño: 1024 * 4500 },
-        { nombre: 'Backup_Archivos.zip', tipo: 'comprimido', tamaño: 1024 * 2200 },
-        { nombre: 'Configuracion.json', tipo: 'documento', tamaño: 1024 * 5 },
-        { nombre: 'Codigo_Fuente.py', tipo: 'documento', tamaño: 1024 * 15 },
-        { nombre: 'Fotos_Vacaciones.jpg', tipo: 'imagen', tamaño: 1024 * 1200 }
-    ];
-    
-    mostrarArchivos(archivosEjemplo);
-}
 
 // Visualizar archivo según su tipo
 function visualizarArchivo(nombreArchivo) {
@@ -317,8 +324,53 @@ function visualizarArchivo(nombreArchivo) {
     
     visor.classList.add('has-content');
     
-    // Para imágenes
-    if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'].includes(extension)) {
+    // Para ISOs 
+    if (extension === 'iso') {
+        visor.innerHTML = `
+            <div style="text-align: center; padding: 40px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">${icono}</div>
+                <h3>${nombreArchivo}</h3>
+                <p style="margin: 20px 0;">Imagen de disco ISO</p>
+                <div>
+                    <a href="/uploads/${encodeURIComponent(nombreArchivo)}" download 
+                       style="background: linear-gradient(135deg, #0066CC, #004C99); 
+                              color: white; padding: 12px 25px; border-radius: 10px; 
+                              text-decoration: none; display: inline-block; font-weight: 600;">
+                        💿 Descargar ISO
+                    </a>
+                </div>
+            </div>`;
+    }
+    // Para OVAs y OVFs 
+    else if (extension === 'ova' || extension === 'ovf') {
+        const tipoNombre = extension === 'ova' ? 'OVA (Open Virtualization Format Archive)' : 'OVF (Open Virtualization Format)';
+        
+        visor.innerHTML = `
+            <div style="text-align: center; padding: 40px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">${icono}</div>
+                <h3>${nombreArchivo}</h3>
+                <p style="margin: 20px 0;">${tipoNombre} - Máquina Virtual</p>
+                <div style="background: rgba(0, 0, 0, 0.05); padding: 20px; border-radius: 10px; margin: 20px 0; max-width: 600px;">
+                    <p>Para usar este archivo en VirtualBox:</p>
+                    <ol style="text-align: left; margin: 15px 0;">
+                        <li>Abre VirtualBox</li>
+                        <li>Ve a Archivo → Importar Servicio...</li>
+                        <li>Selecciona este archivo</li>
+                        <li>Sigue las instrucciones del asistente</li>
+                    </ol>
+                </div>
+                <div>
+                    <a href="/uploads/${encodeURIComponent(nombreArchivo)}" download 
+                       style="background: linear-gradient(135deg, #183D3D, #5C8374); 
+                              color: white; padding: 12px 25px; border-radius: 10px; 
+                              text-decoration: none; display: inline-block; font-weight: 600;">
+                        🖥️ Descargar Máquina Virtual
+                    </a>
+                </div>
+            </div>`;
+    }
+    // Para imágenes (código existente)
+    else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'].includes(extension)) {
         visor.innerHTML = `
             <div style="text-align: center; padding: 20px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <h3 style="margin-bottom: 20px;">${nombreArchivo}</h3>
@@ -334,13 +386,13 @@ function visualizarArchivo(nombreArchivo) {
                 </div>
             </div>`;
     }
-    // Para PDFs
+    // Para PDFs (código existente)
     else if (extension === 'pdf') {
         visor.innerHTML = `
             <iframe src="/uploads/${encodeURIComponent(nombreArchivo)}" 
                     style="width: 100%; height: 100%; border: none;"></iframe>`;
     }
-    // Para otros tipos
+    // Para otros tipos (código existente)
     else {
         visor.innerHTML = `
             <div style="text-align: center; padding: 40px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -388,11 +440,10 @@ if (downloadButton) {
             link.click();
             document.body.removeChild(link);
         } else {
-            // Descargar múltiples archivos (necesitarías ZIP en el backend)
-            alert(`Preparando descarga de ${archivos.length} archivos...\n\nPara descargar múltiples archivos, el servidor debe soportar ZIP.`);
+            // Descargar múltiples archivos
+            alert(`Preparando descarga de ${archivos.length} archivos...`);
             
-            // Alternativa: descargar uno por uno
-            /*
+            // Descargar uno por uno
             for (let archivo of archivos) {
                 const link = document.createElement('a');
                 link.href = `/uploads/${encodeURIComponent(archivo)}`;
@@ -402,7 +453,6 @@ if (downloadButton) {
                 document.body.removeChild(link);
                 await new Promise(resolve => setTimeout(resolve, 500));
             }
-            */
         }
     });
 }
@@ -415,13 +465,14 @@ if (fileInput) {
         const archivo = this.files[0];
         const extension = archivo.name.split('.').pop().toLowerCase();
         
-        // Extensiones permitidas (debe coincidir con el servidor)
+        // Extensiones permitidas (AÑADIDO .iso, .ova, .ovf)
         const extensionesPermitidas = [
             'pdf', 'doc', 'docx', 'txt', 'rtf', 'odt',
             'xls', 'xlsx', 'ods', 'csv',
             'ppt', 'pptx', 'odp',
             'jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp',
             'zip', 'rar', '7z', 'tar', 'gz',
+            'iso', 'ova', 'ovf', // AÑADIDO
             'json', 'xml', 'html', 'htm', 'js', 'css', 'py', 'java', 'c', 'cpp'
         ];
         
@@ -431,7 +482,15 @@ if (fileInput) {
             return;
         }
         
-    
+        // Verificar tamaño para archivos grandes
+        if (archivo.size > 100 * 1024 * 1024) { // Más de 100MB
+            const tamañoMB = Math.round(archivo.size / (1024 * 1024));
+            const confirmar = confirm(`Archivo grande detectado:\n\n${archivo.name}\n${tamañoMB} MB\n\n¿Continuar con la subida?`);
+            if (!confirmar) {
+                this.value = '';
+                return;
+            }
+        }
         
         // Subir archivo
         const formData = new FormData();

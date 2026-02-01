@@ -45,5 +45,22 @@
     "tamaño": 11349,
     "fecha": 1765797598.74,
     "mime_type": "image/png"
+  },
+    {
+    "nombre": "WordPress_Stephanie.xml",
+    "tipo": "documento",
+    "extension": ".xml",
+    "categoria": "Sin categoría",
+    "scroll": 0,
+    "tamaño": 369724,
+    "tamaño_mb": 0.35,
+    "tamaño_gb": 0.0,
+    "fecha": "2026-01-28T18:41:37.985838",
+    "fecha_timestamp": 1769625697.98584,
+    "mime_type": "application/xml",
+    "hash_sha256": "43a8099800a7556dd962e12f86b5b6827816ddae958d4ce7260a5c5b719ee4af",
+    "size": 369724,
+    "upload_date": "2026-01-28T18:41:37.984932"
   }
+
 ]
